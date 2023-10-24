@@ -4,15 +4,27 @@
 
 #include "Libs/Enemy.hpp"
 
-int main(int argc, char const* argv[])
+int main(int argc, char const *argv[])
 {
-    Player player("Alice");
-    Player copiedPlayer = player;
+    char alice[] = "Alice";
+    char ana[] = "Ana";
+    char minion1[] = "Minion1";
+    char minion2[] = "Minion2";
+    char boss[] = "Boss";
 
-    player.setName("Ana");
-    Enemy minion1("Minion1", 20);
-    Enemy minion2("Minion", 25);
-    Enemy boss("Boss", 30);
+    Character player = Player(alice);
+
+    {
+        Character copiedPlayer = player;
+        player.setName(ana);
+        Character enemyMinion1 = Enemy(minion1, 20);
+        {
+            Character enemyMinion2 = Enemy(minion2, 25);
+            Character copyEnemyMinion1 = enemyMinion1;
+        }
+    }
+
+    Character enemyBoss = Enemy(boss, 30);
 
     return 0;
 }

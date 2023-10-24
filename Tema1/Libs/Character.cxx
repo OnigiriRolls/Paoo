@@ -1,24 +1,28 @@
 #include "Character.hpp"
 
-Character::Character(const std::string& name) {
-    this->name = name;
+Character::Character(char* name) {
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
     this->hp = 100;
 }
 
 Character::~Character() {
- 
+    //printf("Destructor character");
+    delete[] this->name;
 }
 
 Character::Character(const Character& other) {
-    this->name = other.name;
+    this->name = new char[strlen(other.name) + 1];
+    strcpy(this->name, other.name);
     this->hp = other.hp;
 }
 
-void Character::setName(const std::string& name) {
-    this->name = name;
+void Character::setName(char* name) {
+    this->name = new char[strlen(name) + 1];
+    strcpy(this->name, name);
 }
 
-std::string Character::getName() const {
+char* Character::getName() const {
     return name;
 }
 

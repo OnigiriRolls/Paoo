@@ -1,18 +1,18 @@
 #pragma once
-#include <string>
+#include <cstring>
 
 class Character
 {
 public:
-    Character(const std::string& name);
+    Character(char* name);
     ~Character();
     Character(const Character& other);
-    void setName(const std::string& name);
-    std::string getName() const;
+    void setName(char* name);
+    char* getName() const;
     void setHp(int hp);
     int getHp() const;
 
 private:
-    std::string name;
+    char* name;
     int hp;
 };

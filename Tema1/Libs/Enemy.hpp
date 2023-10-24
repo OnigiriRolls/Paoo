@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Player.hpp" 
+#include <iostream>
+#include "Character.hpp"
 
 class Enemy : public Character {
 public:
-    Enemy(const std::string& name, int attack);
+    Enemy(char* name, int attack);
     Enemy(const Enemy& other);
     ~Enemy();
     void setAttack(int attack);
