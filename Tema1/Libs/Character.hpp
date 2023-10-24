@@ -1,18 +1,20 @@
 #pragma once
 #include <cstring>
+#include <iostream>
 
 class Character
 {
 public:
-    Character(char* name);
-    ~Character();
+    Character(const char* name);
     Character(const Character& other);
-    void setName(char* name);
+    Character(Character&& other) noexcept;
+    ~Character();
+    void setName(const char* name);
     char* getName() const;
     void setHp(int hp);
     int getHp() const;
 
-private:
+protected:
     char* name;
     int hp;
 };

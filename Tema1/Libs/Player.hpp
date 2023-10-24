@@ -1,10 +1,10 @@
 #pragma once
-
 #include "Character.hpp"
 
 class Player : public Character {
 public:
-    Player(char* name);
+    Player(const char* name);
     Player(const Player& other);
+    Player(Player&& other) noexcept;
     ~Player();
 };

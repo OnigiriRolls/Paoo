@@ -6,25 +6,19 @@
 
 int main(int argc, char const *argv[])
 {
-    char alice[] = "Alice";
-    char ana[] = "Ana";
-    char minion1[] = "Minion1";
-    char minion2[] = "Minion2";
-    char boss[] = "Boss";
-
-    Character player = Player(alice);
+    Character player = Player("Alice");
 
     {
         Character copiedPlayer = player;
-        player.setName(ana);
-        Character enemyMinion1 = Enemy(minion1, 20);
+        player.setName("Ana");
+        Character enemyMinion1 = Enemy("Minion1", 20);
         {
-            Character enemyMinion2 = Enemy(minion2, 25);
+            Character enemyMinion2 = Enemy("Minion2", 25);
             Character copyEnemyMinion1 = enemyMinion1;
         }
     }
 
-    Character enemyBoss = Enemy(boss, 30);
+    Character enemyBoss = Enemy("Boss", 30);
 
     return 0;
 }

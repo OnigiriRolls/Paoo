@@ -1,15 +1,24 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy(char* name, int attack) : Character(name) {
+Enemy::Enemy(const char* name, int attack) : Character(name) {
+    std::cout << "Enemy " << name << ": constructor was called" << std::endl;
     this->attack = attack;
 }
 
 Enemy::Enemy(const Enemy& other) : Character(other) {
+    std::cout << "Enemy " << this->name << ": copy constructor was called" << std::endl;
+    this->attack = other.attack;
+}
+
+Enemy::Enemy(Enemy&& other) noexcept : Character(other) {
+    std::cout << "Character " << this->name << ": move constructor was called" << std::endl;
     this->attack = other.attack;
 }
 
 Enemy::~Enemy(){
-    //std::cout<<"Destructor enemy";
+    if (this->name != NULL)
+        std::cout << "Enemy " << this->name << ": destructor was called" << std::endl;
+    else std::cout << "Enemy name=NULL: destructor was called" << std::endl;
 }
 
 void Enemy::setAttack(int attack) {
@@ -21,7 +30,7 @@ int Enemy::getAttack() const {
 }
 
 void Enemy::attackPlayer(Player& player) {
-    //std::cout << "Enemy " << this->getName() << ": Attacking player " << player.getName();
+    std::cout << "Enemy " << this->name << ": Attacking player " << player.getName() << std::endl;
     int playerHealth = player.getHp();
     playerHealth -= attack;
     player.setHp(playerHealth);
