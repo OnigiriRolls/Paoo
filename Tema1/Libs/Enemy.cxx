@@ -1,8 +1,8 @@
 #include "Enemy.hpp"
 
-Enemy::Enemy(const char* name, int attack) : Character(name) {
+Enemy::Enemy(const char* name) : Character(name) {
+    this->attack = 0;
     std::cout << "Enemy " << name << ": constructor was called" << std::endl;
-    this->attack = attack;
 }
 
 Enemy::Enemy(const Enemy& other) : Character(other) {
@@ -11,27 +11,29 @@ Enemy::Enemy(const Enemy& other) : Character(other) {
 }
 
 Enemy::Enemy(Enemy&& other) noexcept : Character(other) {
-    std::cout << "Character " << this->name << ": move constructor was called" << std::endl;
+    std::cout << "Enemy " << this->name << ": move constructor was called" << std::endl;
     this->attack = other.attack;
+
+    other.attack = 0;
 }
 
-Enemy::~Enemy(){
+Enemy::~Enemy() {
     if (this->name != NULL)
         std::cout << "Enemy " << this->name << ": destructor was called" << std::endl;
     else std::cout << "Enemy name=NULL: destructor was called" << std::endl;
 }
 
-void Enemy::setAttack(int attack) {
+Enemy::Enemy(const char* name, int attack) : Enemy(name)
+{
     this->attack = attack;
 }
 
-int Enemy::getAttack() const {
-    return attack;
+void Enemy::SetAttack(int attack)
+{
+    this->attack = attack;
 }
 
-void Enemy::attackPlayer(Player& player) {
-    std::cout << "Enemy " << this->name << ": Attacking player " << player.getName() << std::endl;
-    int playerHealth = player.getHp();
-    playerHealth -= attack;
-    player.setHp(playerHealth);
+int Enemy::GetAttack()
+{
+    return this->attack;
 }
