@@ -23,3 +23,21 @@ Player& Player::operator+(const Player& other) {
     Character::operator+(other);
     return *this;
 }
+
+Player& Player::operator=(const Player& other) {
+    std::cout << "Player copy operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        Character::operator=(other);
+    }
+    return *this;
+}
+
+Player& Player::operator=(Player&& other) noexcept {
+    std::cout << "Player move operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        Character::operator=(other);
+    }
+    return *this;
+}

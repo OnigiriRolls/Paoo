@@ -31,6 +31,28 @@ Enemy& Enemy::operator+(const Enemy& other) {
     return *this;
 }
 
+Enemy& Enemy::operator=(const Enemy& other) {
+    std::cout << "Enemy copy operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        Character::operator=(other);
+        this->attack = other.attack;
+    }
+    return *this;
+}
+
+Enemy& Enemy::operator=(Enemy&& other) noexcept {
+    std::cout << "Enemy move operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        Character::operator=(other);
+        this->attack = other.attack;
+
+        other.attack = 0;
+    }
+    return *this;
+}
+
 Enemy::Enemy(const char* name, int attack) : Enemy(name)
 {
     this->attack = attack;

@@ -39,6 +39,30 @@ Character& Character::operator+(const Character& other) {
     return *this;
 }
 
+Character& Character::operator=(const Character& other) {
+    std::cout << "Character copy operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        setName(other.name);
+        this->hp = other.hp;
+    }
+    return *this;
+}
+
+Character& Character::operator=(Character&& other) noexcept {
+    std::cout << "Character move operator + overload was called" << std::endl;
+    if (this != &other)
+    {
+        delete[] this->name;
+        this->name = other.name;
+        this->hp = other.hp;
+
+        other.name = NULL;
+        other.hp = 0;
+    }
+    return *this;
+}
+
 void Character::setName(const char* name) {
     if (this->name != NULL)
         delete[] this->name;

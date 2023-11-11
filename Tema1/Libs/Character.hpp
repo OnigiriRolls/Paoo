@@ -5,17 +5,19 @@
 class Character
 {
 public:
-    Character(const char* name);
-    Character(const Character& other);
-    Character(Character&& other) noexcept;
+    Character(const char *name);
+    Character(const Character &other);
+    Character(Character &&other) noexcept;
     ~Character();
-    Character& operator+(const Character& other);
-    void setName(const char* name);
-    char* getName() const;
+    Character &operator+(const Character &other);
+    Character &operator=(const Character &other);
+    Character &operator=(Character &&other) noexcept;
+    void setName(const char *name);
+    char *getName() const;
     void setHp(int hp);
     int getHp() const;
 
 protected:
-    char* name;
+    char *name;
     int hp;
 };
