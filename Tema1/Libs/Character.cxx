@@ -33,6 +33,12 @@ Character::~Character() {
     delete[] this->name;
 }
 
+Character& Character::operator+(const Character& other) {
+    std::cout << "Character operator + overload was called" << std::endl;
+    this->hp += other.hp;
+    return *this;
+}
+
 void Character::setName(const char* name) {
     if (this->name != NULL)
         delete[] this->name;

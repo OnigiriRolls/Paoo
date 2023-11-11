@@ -7,4 +7,5 @@ public:
     Player(const Player& other);
     Player(Player&& other) noexcept;
     ~Player();
+    Player& operator+(const Player& other);
 };

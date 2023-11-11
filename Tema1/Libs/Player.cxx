@@ -17,3 +17,9 @@ Player::~Player() {
         std::cout << "Player " << this->name << ": destructor was called" << std::endl;
     else std::cout << "Player name=NULL: destructor was called" << std::endl;
 }
+
+Player& Player::operator+(const Player& other) {
+    std::cout << "Player operator + overload was called" << std::endl;
+    Character::operator+(other);
+    return *this;
+}

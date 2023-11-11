@@ -23,6 +23,14 @@ Enemy::~Enemy() {
     else std::cout << "Enemy name=NULL: destructor was called" << std::endl;
 }
 
+Enemy& Enemy::operator+(const Enemy& other) {
+    std::cout << "Enemy operator + overload was called" << std::endl;
+    Character::operator+(other);
+    this->attack += other.attack;
+
+    return *this;
+}
+
 Enemy::Enemy(const char* name, int attack) : Enemy(name)
 {
     this->attack = attack;

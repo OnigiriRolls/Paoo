@@ -9,6 +9,7 @@ public:
     Character(const Character& other);
     Character(Character&& other) noexcept;
     ~Character();
+    Character& operator+(const Character& other);
     void setName(const char* name);
     char* getName() const;
     void setHp(int hp);
