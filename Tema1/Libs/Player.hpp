@@ -14,9 +14,9 @@ public:
     Player &operator=(const Player &other);
     Player &operator=(Player &&other) noexcept;
     void toString() const override;
-    void setGun(std::unique_ptr<Gun> gun);
+    void setGun(Gun *gun);
     void useGun() const;
 
 private:
-    std::unique_ptr<Gun> gun;
+    Gun *gun;
 };

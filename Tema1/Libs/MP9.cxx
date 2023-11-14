@@ -32,6 +32,17 @@ void MP9::toString() const
     std::cout << "MP9 is a gun for close range" << std::endl;
 }
 
+MP9& MP9::operator=(MP9&& other) noexcept
+{
+    std::cout << "MP9 move operator = overload was called" << std::endl;
+    if (this != &other)
+    {
+        this->noShots = other.noShots;
+        this->totalPower = other.totalPower;
+    }
+    return *this;
+}
+
 void MP9::setNoShots(const int noShots)
 {
     this->noShots = noShots;

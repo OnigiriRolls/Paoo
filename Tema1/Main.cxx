@@ -18,21 +18,21 @@ int main(int argc, char const *argv[])
     Character c1 = Player("c1");
     Character c2 = Enemy("c2");
 
-    std::cout << "-- Operator + overload --" << std::endl;
+    std::cout << std::endl << "-- Operator + overload --" << std::endl;
     e1 + e2;
     p1 + p2;
     c1 + c2;
 
-    std::cout << "-- Copy operator = --" << std::endl;
+    std::cout << std::endl << "-- Copy operator = --" << std::endl;
     e1 = e2;
     p1 = p2;
     c1 = e1;
     c2 = p1;
 
-    std::cout << "-- Move operator = --" << std::endl;
+    std::cout << std::endl << "-- Move operator = --" << std::endl;
     c1 = std::move(e2);
 
-    std::cout << "-- Virtual function --" << std::endl;
+    std::cout << std::endl << "-- Virtual function --" << std::endl;
 
     Character *c4 = &p1;
     Character *c5 = &e1;
@@ -41,17 +41,23 @@ int main(int argc, char const *argv[])
     c5->toString();
     c6->toString();
 
-    std::cout << "-- Interface Gun --" << std::endl;
-    Player p3 = Player("p1");
-    Player p4 = Player("p2");
+    std::cout << std::endl << "-- Interface Gun --" << std::endl;
+    Player p3 = Player("p3");
+    Player p4 = Player("p4");
 
-    p3.setGun(std::make_unique<AWP>());
-    p4.setGun(std::make_unique<MP9>());
+    p3.setHp(9);
+    p4.setHp(80);
+
+    AWP awp = AWP();
+    MP9 mp9 = MP9();
+
+    p3.setGun(&awp);
+    p4.setGun(&mp9);
 
     p3.useGun();
     p4.useGun();
 
-    std::cout << "-- Final destructors --" << std::endl;
+    std::cout << std::endl << "-- Final destructors --" << std::endl;
 
     return 0;
 }

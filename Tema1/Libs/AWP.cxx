@@ -27,3 +27,9 @@ void AWP::toString() const
 {
     std::cout << "AWP is a gun for long range" << std::endl;
 }
+
+AWP& AWP::operator=(AWP&& other) noexcept
+{
+    std::cout << "AWP move operator = overload was called" << std::endl;
+    return *this;
+}
