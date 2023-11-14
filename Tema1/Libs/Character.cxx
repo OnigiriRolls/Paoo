@@ -18,12 +18,12 @@ Character::Character(const Character& other) {
 Character::Character(Character&& other) noexcept {
     std::cout << "Character " << other.name << ": move constructor was called" << std::endl;
 
+    delete[] this->name;
     this->name = other.name;
     this->hp = other.hp;
     other.name = NULL;
     other.hp = 0;
 }
-
 
 Character::~Character() {
     if (this->name != NULL)
@@ -63,12 +63,14 @@ Character& Character::operator=(Character&& other) noexcept {
     return *this;
 }
 
+void Character::toString() const {
+    std::cout << "I am a Character with name = " << this->name << " and hp = " << this->hp << std::endl;
+}
+
 void Character::setName(const char* name) {
-    if (this->name != NULL)
-        delete[] this->name;
+    delete[] this->name;
     this->name = new char[strlen(name) + 1];
     strcpy(this->name, name);
-
 }
 
 char* Character::getName() const {

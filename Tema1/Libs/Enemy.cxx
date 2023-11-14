@@ -1,7 +1,7 @@
 #include "Enemy.hpp"
 
 Enemy::Enemy(const char* name) : Character(name) {
-    this->attack = 0;
+    this->attack = 10;
     std::cout << "Enemy " << name << ": constructor was called" << std::endl;
 }
 
@@ -51,6 +51,11 @@ Enemy& Enemy::operator=(Enemy&& other) noexcept {
         other.attack = 0;
     }
     return *this;
+}
+
+void Enemy::toString() const {
+    std::cout << "I am an Enemy with name = " << this->name << " and hp = " << this->hp
+        << " and attack = " << this->attack << std::endl;
 }
 
 Enemy::Enemy(const char* name, int attack) : Enemy(name)

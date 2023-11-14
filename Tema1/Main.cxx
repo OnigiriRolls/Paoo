@@ -4,6 +4,8 @@
 
 #include "Libs/Player.hpp"
 #include "Libs/Enemy.hpp"
+#include "Libs/AWP.hpp"
+#include "Libs/MP9.hpp"
 
 int main(int argc, char const *argv[])
 {
@@ -29,6 +31,27 @@ int main(int argc, char const *argv[])
 
     std::cout << "-- Move operator = --" << std::endl;
     c1 = std::move(e2);
+
+    std::cout << "-- Virtual function --" << std::endl;
+
+    Character *c4 = &p1;
+    Character *c5 = &e1;
+    Character *c6 = &c1;
+    c4->toString();
+    c5->toString();
+    c6->toString();
+
+    std::cout << "-- Interface Gun --" << std::endl;
+    Player p3 = Player("p1");
+    Player p4 = Player("p2");
+
+    p3.setGun(std::make_unique<AWP>());
+    p4.setGun(std::make_unique<MP9>());
+
+    p3.useGun();
+    p4.useGun();
+
+    std::cout << "-- Final destructors --" << std::endl;
 
     return 0;
 }

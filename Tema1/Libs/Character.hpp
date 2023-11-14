@@ -12,6 +12,7 @@ public:
     Character &operator+(const Character &other);
     Character &operator=(const Character &other);
     Character &operator=(Character &&other) noexcept;
+    virtual void toString() const;
     void setName(const char *name);
     char *getName() const;
     void setHp(int hp);

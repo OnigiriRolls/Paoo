@@ -2,14 +2,17 @@
 
 Player::Player(const char* name) : Character(name) {
     std::cout << "Player " << name << ": constructor was called" << std::endl;
+    this->gun = NULL;
 }
 
 Player::Player(const Player& other) : Character(other) {
     std::cout << "Player " << this->name << ": copy constructor was called" << std::endl;
+    this->gun = NULL;
 }
 
 Player::Player(Player&& other) noexcept : Character(other) {
-    std::cout << "Character " << this->name << ": move constructor was called" << std::endl;
+    std::cout << "Player " << this->name << ": move constructor was called" << std::endl;
+    this->gun = NULL;
 }
 
 Player::~Player() {
@@ -40,4 +43,20 @@ Player& Player::operator=(Player&& other) noexcept {
         Character::operator=(other);
     }
     return *this;
+}
+
+void Player::toString() const {
+    std::cout << "I am a Player with name = " << this->name << " and hp = " << this->hp << std::endl;
+}
+
+void Player::setGun(std::unique_ptr<Gun> gun)
+{
+    this->gun = std::move(gun);
+}
+
+void Player::useGun() const
+{
+    std::cout << "Player used gun with description: ";
+    this->gun->toString();
+    std::cout << "with damage: " << this->gun->calculateDamage(this->hp) << std::endl;
 }
