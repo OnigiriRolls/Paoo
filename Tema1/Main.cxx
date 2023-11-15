@@ -69,9 +69,6 @@ int main(int argc, char const *argv[])
     p4.useGun();
 
     std::cout << std::endl
-              << "-- Final destructors --" << std::endl;
-
-    std::cout << std::endl
               << "-- Namespaces: Arena and Underworld --" << std::endl;
 
     Arena::GameStatistics game1 = Arena::GameStatistics(10, 5);
