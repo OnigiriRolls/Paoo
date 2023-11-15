@@ -1,5 +1,7 @@
 #include "AWP.hpp"
 
+using namespace Arena;
+
 AWP::AWP()
 {
     std::cout << "AWP: constructor was called" << std::endl;

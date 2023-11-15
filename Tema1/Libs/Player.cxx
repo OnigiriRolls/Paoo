@@ -1,5 +1,7 @@
 #include "Player.hpp"
 
+using namespace Arena;
+
 Player::Player(const char* name) : Character(name) {
     std::cout << "Player " << name << ": constructor was called" << std::endl;
     this->gun = NULL;

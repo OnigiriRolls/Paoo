@@ -1,5 +1,7 @@
 #include "MP9.hpp"
 
+using namespace Arena;
+
 MP9::MP9()
 {
     std::cout << "MP9: constructor was called" << std::endl;

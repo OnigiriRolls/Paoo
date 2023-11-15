@@ -1,5 +1,7 @@
 #include "Enemy.hpp"
 
+using namespace Underworld;
+
 Enemy::Enemy(const char* name) : Character(name) {
     this->attack = 10;
     std::cout << "Enemy " << name << ": constructor was called" << std::endl;
