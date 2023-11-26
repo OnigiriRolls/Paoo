@@ -13,41 +13,52 @@
 #include "Libs/Gun.hpp"
 #include "Libs/GameStatistics.hpp"
 
-using Underworld::Enemy;
-using Arena::Player;
 using Arena::AWP;
-using Arena::MP9;
-using Arena::Gun;
 using Arena::Game;
+using Arena::Gun;
+using Arena::MP9;
+using Arena::Player;
+using Underworld::Enemy;
 
-Player bestPlayer;
+Player *bestPlayer;
+
+void runGameThread(int id, const int numberPlayers)
+{
+    int i = 0;
+    Player p;
+    Gun *gun;
+    Player *players = new Player[numberPlayers];
+
+    if (players == NULL)
+    {
+        std::cerr << "Memory allocation failed." << std::endl;
+        return;
+    }
+
+    for (i = 0; i < numberPlayers; i++)
+    {
+        char aux[3] = {'p', static_cast<char>(i + 49)};
+        p = Player(aux);
+        gun = new MP9();
+
+        p.setGun(gun);
+        players[i] = p;
+    }
+
+    Game *game = new Game(players, numberPlayers);
+    bestPlayer = game->start();
+
+    std::cout << bestPlayer->getName() << std::endl;
+    std::cout << std::endl
+              << "-- Final destructors --" << std::endl;
+}
 
 int main(int argc, char const *argv[])
 {
-    std::cout << std::endl << "-- Threads and semaphores --" << std::endl;
+    std::cout << std::endl
+              << "-- Threads and semaphores --" << std::endl;
 
-    Player p1 = Player("p1");
-    Player p2 = Player("p2");
-    Player p3 = Player("p3");
-
-    Gun* mp91 = new MP9();
-    Gun* mp92 = new MP9();
-    Gun* awp1 = new AWP();
-
-    p1.setGun(mp91);
-    p2.setGun(mp92);
-    p3.setGun(awp1);
-    Player players[3];
-
-    players[0] = p1;
-    players[1] = p2;
-    players[2] = p3;
-
-    Game game1(players, 3);
-
-    game1.start();
-
-    std::cout << std::endl << "-- Final destructors --" << std::endl;
+    runGameThread(1, 3);
 
     return 0;
 }
