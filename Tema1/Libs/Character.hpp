@@ -5,6 +5,7 @@
 class Character
 {
 public:
+    Character();
     Character(const char *name);
     Character(const Character &other);
     Character(Character &&other) noexcept;

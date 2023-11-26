@@ -1,5 +1,11 @@
 #include "Character.hpp"
 
+Character::Character()
+{
+    this->name = NULL;
+    this->hp = 100;
+}
+
 Character::Character(const char* name) {
     std::cout << "Character " << name << ": constructor was called" << std::endl;
 

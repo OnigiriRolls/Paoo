@@ -5,6 +5,7 @@ namespace Underworld {
     class Enemy : public Character
     {
     public:
+        Enemy();
         Enemy(const char* name);
         Enemy(const Enemy& other);
         Enemy(Enemy&& other) noexcept;

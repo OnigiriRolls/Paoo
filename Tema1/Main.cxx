@@ -1,86 +1,53 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <thread>
+#include <semaphore.h>
 
+#include "Libs/Character.hpp"
+#include "Libs/Game.hpp"
 #include "Libs/Player.hpp"
 #include "Libs/Enemy.hpp"
 #include "Libs/AWP.hpp"
 #include "Libs/MP9.hpp"
+#include "Libs/Gun.hpp"
 #include "Libs/GameStatistics.hpp"
 
 using Underworld::Enemy;
 using Arena::Player;
 using Arena::AWP;
 using Arena::MP9;
+using Arena::Gun;
+using Arena::Game;
+
+Player bestPlayer;
 
 int main(int argc, char const *argv[])
 {
-    Enemy e1 = Enemy("e1");
-    Enemy e2 = Enemy("e2", 100);
+    std::cout << std::endl << "-- Threads and semaphores --" << std::endl;
 
     Player p1 = Player("p1");
     Player p2 = Player("p2");
-
-    Character c1 = Player("c1");
-    Character c2 = Enemy("c2");
-
-    std::cout << std::endl
-              << "-- Operator + overload --" << std::endl;
-    e1 + e2;
-    p1 + p2;
-    c1 + c2;
-
-    std::cout << std::endl
-              << "-- Copy operator = --" << std::endl;
-    e1 = e2;
-    p1 = p2;
-    c1 = e1;
-    c2 = p1;
-
-    std::cout << std::endl
-              << "-- Move operator = --" << std::endl;
-    c1 = std::move(e2);
-
-    std::cout << std::endl
-              << "-- Virtual function --" << std::endl;
-
-    Character *c4 = &p1;
-    Character *c5 = &e1;
-    Character *c6 = &c1;
-    c4->toString();
-    c5->toString();
-    c6->toString();
-
-    std::cout << std::endl
-              << "-- Interface Gun --" << std::endl;
     Player p3 = Player("p3");
-    Player p4 = Player("p4");
 
-    p3.setHp(9);
-    p4.setHp(80);
+    Gun* mp91 = new MP9();
+    Gun* mp92 = new MP9();
+    Gun* awp1 = new AWP();
 
-    AWP awp = AWP();
-    MP9 mp9 = MP9();
+    p1.setGun(mp91);
+    p2.setGun(mp92);
+    p3.setGun(awp1);
+    Player players[3];
 
-    p3.setGun(&awp);
-    p4.setGun(&mp9);
+    players[0] = p1;
+    players[1] = p2;
+    players[2] = p3;
 
-    p3.useGun();
-    p4.useGun();
+    Game game1(players, 3);
 
-    std::cout << std::endl
-              << "-- Namespaces: Arena and Underworld --" << std::endl;
+    game1.start();
 
-    Arena::GameStatistics game1 = Arena::GameStatistics(10, 5);
-    Underworld::GameStatistics game2 = Underworld::GameStatistics(5, 2);
-
-    std::cout << "Arena Game" << std::endl;
-    game1.getStatistics();
-    std::cout << "Underworld Game" << std::endl;
-    game2.getStatistics();
-
-    std::cout << std::endl
-              << "-- Final destructors --" << std::endl;
+    std::cout << std::endl << "-- Final destructors --" << std::endl;
 
     return 0;
 }
