@@ -21,19 +21,17 @@ using Arena::Player;
 using Underworld::Enemy;
 
 Player *bestPlayer;
+double bestScore;
+sem_t semaphore;
 
 void runGameThread(int id, const int numberPlayers)
 {
+    std::cout << std::endl
+              << "Thread " << id << " is running a game..." << std::endl;
     int i = 0;
     Player p;
     Gun *gun;
     Player *players = new Player[numberPlayers];
-
-    if (players == NULL)
-    {
-        std::cerr << "Memory allocation failed." << std::endl;
-        return;
-    }
 
     for (i = 0; i < numberPlayers; i++)
     {
@@ -45,12 +43,21 @@ void runGameThread(int id, const int numberPlayers)
         players[i] = p;
     }
 
-    Game *game = new Game(players, numberPlayers);
-    bestPlayer = game->start();
+    double score = (numberPlayers - 1) * 10;
 
-    std::cout << bestPlayer->getName() << std::endl;
-    std::cout << std::endl
-              << "-- Final destructors --" << std::endl;
+    Game *game = new Game(players, numberPlayers);
+    Player *localBest = game->start();
+
+    sem_wait(&semaphore);
+    if (score >= bestScore)
+    {
+        bestPlayer = localBest;
+        bestScore = score;
+    }
+    sem_post(&semaphore);
+    std::cout << "Thread " << id << " finished and has a best local player and local score "
+              << localBest->getName() << " " << score << std::endl
+              << "Global best player and best score are: " << bestPlayer->getName() << " " << bestScore << std::endl;
 }
 
 int main(int argc, char const *argv[])
@@ -58,7 +65,19 @@ int main(int argc, char const *argv[])
     std::cout << std::endl
               << "-- Threads and semaphores --" << std::endl;
 
-    runGameThread(1, 3);
+    sem_init(&semaphore, 0, 1);
+
+    std::thread t1(runGameThread, 1, 3);
+    std::thread t2(runGameThread, 2, 5);
+    std::thread t3(runGameThread, 3, 5);
+    std::thread t4(runGameThread, 4, 7);
+
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+
+    sem_destroy(&semaphore);
 
     return 0;
 }

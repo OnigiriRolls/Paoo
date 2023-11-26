@@ -4,12 +4,12 @@ using namespace Arena;
 
 AWP::AWP()
 {
-    std::cout << "AWP: constructor was called" << std::endl;
+    //std::cout << "AWP: constructor was called" << std::endl;
 }
 
 AWP::AWP(AWP&& other) noexcept
 {
-    std::cout << "AWP: move constructor was called" << std::endl;
+    //std::cout << "AWP: move constructor was called" << std::endl;
 }
 
 void AWP::putScope() const
@@ -32,6 +32,6 @@ void AWP::toString() const
 
 AWP& AWP::operator=(AWP&& other) noexcept
 {
-    std::cout << "AWP move operator = overload was called" << std::endl;
+    //std::cout << "AWP move operator = overload was called" << std::endl;
     return *this;
 }

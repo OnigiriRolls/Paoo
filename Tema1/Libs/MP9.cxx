@@ -4,14 +4,14 @@ using namespace Arena;
 
 MP9::MP9()
 {
-    std::cout << "MP9: constructor was called" << std::endl;
+    //std::cout << "MP9: constructor was called" << std::endl;
     this->noShots = 100;
     this->totalPower = 1000;
 }
 
 MP9::MP9(MP9&& other) noexcept
 {
-    std::cout << "MP9: move constructor was called" << std::endl;
+    //std::cout << "MP9: move constructor was called" << std::endl;
     this->noShots = other.noShots;
     this->totalPower = other.totalPower;
 }
@@ -36,7 +36,7 @@ void MP9::toString() const
 
 MP9& MP9::operator=(MP9&& other) noexcept
 {
-    std::cout << "MP9 move operator = overload was called" << std::endl;
+    //std::cout << "MP9 move operator = overload was called" << std::endl;
     if (this != &other)
     {
         this->noShots = other.noShots;

@@ -17,7 +17,7 @@ namespace Arena {
     {
         if (this->nr != 0 && this->players != NULL)
         {
-            srand((unsigned)time(NULL));
+            srand(time(0));
             int bestPlayer = rand() % (this->nr - 1);
             std::cout << std::endl << "Displaying last logs of game..." << std::endl;
 
