@@ -54,10 +54,51 @@ void runGameThread(int id, const int numberPlayers)
         bestPlayer = localBest;
         bestScore = score;
     }
-    sem_post(&semaphore);
+
     std::cout << "Thread " << id << " finished and has a best local player and local score "
               << localBest->getName() << " " << score << std::endl
               << "Global best player and best score are: " << bestPlayer->getName() << " " << bestScore << std::endl;
+
+    sem_post(&semaphore);
+}
+
+void simulateSamePlayerAttack(Player *player, Player *attacker)
+{
+    attacker->attack(*player);
+}
+
+void simulateSamePlayerAttackManager(const int numberPlayers)
+{
+    std::cout << "Simulation: -What if a player is attacked at the same time by others?- started..." << std::endl;
+
+    int i = 0;
+    Player p;
+    Gun *gun;
+    Player *players = new Player[numberPlayers];
+
+    for (i = 0; i < numberPlayers; i++)
+    {
+        char aux[3] = {'p', static_cast<char>(i + 49)};
+        p = Player(aux);
+        gun = new MP9();
+
+        p.setGun(gun);
+        players[i] = p;
+    }
+    
+    players[0].setHp(60);
+
+    std::thread t1(simulateSamePlayerAttack, players, players+1);
+    std::thread t2(simulateSamePlayerAttack, players, players+2);
+    std::thread t3(simulateSamePlayerAttack, players, players+3);
+    std::thread t4(simulateSamePlayerAttack, players, players+4);
+
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+
+    std::cout << "Simulation ended..." << std::endl;
 }
 
 int main(int argc, char const *argv[])
@@ -78,6 +119,11 @@ int main(int argc, char const *argv[])
     t4.join();
 
     sem_destroy(&semaphore);
+
+    std::cout << std::endl
+              << "-- RAI Mutex --" << std::endl;
+
+    simulateSamePlayerAttackManager(5);
 
     return 0;
 }
