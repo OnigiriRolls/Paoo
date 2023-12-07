@@ -23,6 +23,7 @@ using Underworld::Enemy;
 Player *bestPlayer;
 double bestScore;
 sem_t semaphore;
+sem_t serverSemaphore;
 
 void runGameThread(int id, const int numberPlayers)
 {
@@ -85,13 +86,13 @@ void simulateSamePlayerAttackManager(const int numberPlayers)
         p.setGun(gun);
         players[i] = p;
     }
-    
-    players[0].setHp(60);
 
-    std::thread t1(simulateSamePlayerAttack, players, players+1);
-    std::thread t2(simulateSamePlayerAttack, players, players+2);
-    std::thread t3(simulateSamePlayerAttack, players, players+3);
-    std::thread t4(simulateSamePlayerAttack, players, players+4);
+    players[0].setHp(70);
+
+    std::thread t1(simulateSamePlayerAttack, players, players + 1);
+    std::thread t2(simulateSamePlayerAttack, players, players + 2);
+    std::thread t3(simulateSamePlayerAttack, players, players + 3);
+    std::thread t4(simulateSamePlayerAttack, players, players + 4);
 
     t1.join();
     t2.join();
@@ -99,6 +100,36 @@ void simulateSamePlayerAttackManager(const int numberPlayers)
     t4.join();
 
     std::cout << "Simulation ended..." << std::endl;
+}
+
+void requestServer(int index)
+{
+    sem_wait(&serverSemaphore);
+    std::cout << "Player " << index << "is requesting server..." << std::endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    sem_post(&serverSemaphore);
+}
+
+void simulateGameServerMaxPlayers()
+{
+    std::cout << "Small Game Server accepts requests from max 5 players" << std::endl
+              << "What happens when there are 9 players?" << std::endl;
+
+    sem_init(&serverSemaphore, 0, 5);
+
+    std::thread threads[9];
+
+    for (int i = 0; i < 9; ++i)
+    {
+        threads[i] = std::thread(requestServer, i + 1);
+    }
+
+    for (int i = 0; i < 9; ++i)
+    {
+        threads[i].join();
+    }
+
+    sem_destroy(&serverSemaphore);
 }
 
 int main(int argc, char const *argv[])
@@ -119,6 +150,10 @@ int main(int argc, char const *argv[])
     t4.join();
 
     sem_destroy(&semaphore);
+
+    std::cout << std::endl;
+
+    simulateGameServerMaxPlayers();
 
     std::cout << std::endl
               << "-- RAI Mutex --" << std::endl;
