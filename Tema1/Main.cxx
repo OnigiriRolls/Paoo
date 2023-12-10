@@ -132,11 +132,8 @@ void simulateGameServerMaxPlayers()
     sem_destroy(&serverSemaphore);
 }
 
-int main(int argc, char const *argv[])
+void runThreads()
 {
-    std::cout << std::endl
-              << "-- Threads and semaphores --" << std::endl;
-
     sem_init(&semaphore, 0, 1);
 
     std::thread t1(runGameThread, 1, 3);
@@ -150,15 +147,24 @@ int main(int argc, char const *argv[])
     t4.join();
 
     sem_destroy(&semaphore);
+}
 
+int main(int argc, char const *argv[])
+{
+    std::cout << std::endl
+              << "-- Threads and semaphores --" << std::endl;
+
+    runThreads();
     std::cout << std::endl;
-
     simulateGameServerMaxPlayers();
 
     std::cout << std::endl
               << "-- RAI Mutex --" << std::endl;
 
     simulateSamePlayerAttackManager(5);
+
+    std::cout << std::endl
+              << "-- RAI Pointers --" << std::endl;
 
     return 0;
 }
