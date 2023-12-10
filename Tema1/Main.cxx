@@ -12,6 +12,7 @@
 #include "Libs/MP9.hpp"
 #include "Libs/Gun.hpp"
 #include "Libs/GameStatistics.hpp"
+#include "Libs/GameState.hpp"
 
 using Arena::AWP;
 using Arena::Game;
@@ -19,11 +20,13 @@ using Arena::Gun;
 using Arena::MP9;
 using Arena::Player;
 using Underworld::Enemy;
+using Underworld::GameState;
 
 Player *bestPlayer;
 double bestScore;
 sem_t semaphore;
 sem_t serverSemaphore;
+std::shared_ptr<GameState> gameState; 
 
 void runGameThread(int id, const int numberPlayers)
 {
@@ -149,6 +152,28 @@ void runThreads()
     sem_destroy(&semaphore);
 }
 
+void startUnderworldGame(int name) {
+    Underworld::Game game(name, gameState);
+    game.start();
+}
+
+void simulateSharedGameState(){
+    gameState = std::make_shared<GameState>();
+
+    gameState->setEnemies(4);
+    gameState->setPlayers(4);
+
+    std::thread t1(startUnderworldGame, 1);
+    std::thread t2(startUnderworldGame, 2);
+    std::thread t3(startUnderworldGame, 3);
+    std::thread t4(startUnderworldGame, 4);
+
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+}
+
 int main(int argc, char const *argv[])
 {
     std::cout << std::endl
@@ -166,5 +191,6 @@ int main(int argc, char const *argv[])
     std::cout << std::endl
               << "-- RAI Pointers --" << std::endl;
 
+    simulateSharedGameState();
     return 0;
 }
