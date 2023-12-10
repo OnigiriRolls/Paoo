@@ -1,9 +1,11 @@
 #pragma once
 #include "Player.hpp"
 #include "GameState.hpp"
+#include "GameStatistics.hpp"
 #include <vector>
 #include <ctime>
 #include <cstdlib>
+#include <thread>
 
 namespace Arena
 {
@@ -30,12 +32,15 @@ namespace Underworld
     public:
         Game();
         Game(int name, std::shared_ptr<GameState> gameState);
+        Game(int name, std::unique_ptr<GameStatistics> gameStatistics);
         void start();
-        void end();
+        void startWithGameStatistics();
+        void getGameStatistics() const;
 
     private:
         std::shared_ptr<GameState> gameState;
         int name;
         std::mutex stateMutex;
+        std::unique_ptr<GameStatistics> gameStatistics;
     };
 }

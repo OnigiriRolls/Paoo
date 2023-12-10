@@ -26,7 +26,7 @@ Player *bestPlayer;
 double bestScore;
 sem_t semaphore;
 sem_t serverSemaphore;
-std::shared_ptr<GameState> gameState; 
+std::shared_ptr<GameState> gameState;
 
 void runGameThread(int id, const int numberPlayers)
 {
@@ -108,7 +108,7 @@ void simulateSamePlayerAttackManager(const int numberPlayers)
 void requestServer(int index)
 {
     sem_wait(&serverSemaphore);
-    std::cout << "Player " << index << "is requesting server..." << std::endl;
+    std::cout << "Player " << index << " is requesting server..." << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     sem_post(&serverSemaphore);
 }
@@ -152,21 +152,49 @@ void runThreads()
     sem_destroy(&semaphore);
 }
 
-void startUnderworldGame(int name) {
+void startUnderworldGame(int name)
+{
     Underworld::Game game(name, gameState);
     game.start();
 }
 
-void simulateSharedGameState(){
+void simulateSharedGameState()
+{
     gameState = std::make_shared<GameState>();
 
     gameState->setEnemies(4);
     gameState->setPlayers(4);
 
+    std::cout << "Simulate 4 game instances for 4 players with the same game state" << std::endl;
+
     std::thread t1(startUnderworldGame, 1);
     std::thread t2(startUnderworldGame, 2);
     std::thread t3(startUnderworldGame, 3);
     std::thread t4(startUnderworldGame, 4);
+
+    t1.join();
+    t2.join();
+    t3.join();
+    t4.join();
+}
+
+void startUnderworldGameWithStats(int name)
+{
+    std::unique_ptr<Underworld::GameStatistics> gameStatistics = std::make_unique<Underworld::GameStatistics>(0, 0);
+    Underworld::Game game(name, std::move(gameStatistics));
+    game.startWithGameStatistics();
+    game.getGameStatistics();
+}
+
+void simulateGameWithUniqueGameStatistics()
+{
+    std::cout << std::endl
+              << "Simulate 4 game instances for 4 players with unique game statistics for each one of them" << std::endl;
+
+    std::thread t1(startUnderworldGameWithStats, 1);
+    std::thread t2(startUnderworldGameWithStats, 2);
+    std::thread t3(startUnderworldGameWithStats, 3);
+    std::thread t4(startUnderworldGameWithStats, 4);
 
     t1.join();
     t2.join();
@@ -192,5 +220,6 @@ int main(int argc, char const *argv[])
               << "-- RAI Pointers --" << std::endl;
 
     simulateSharedGameState();
+    simulateGameWithUniqueGameStatistics();
     return 0;
 }

@@ -83,12 +83,12 @@ namespace Underworld {
             << "Score: " << this->score << std::endl;
     }
 
-    void GameStatistics::setZomiesKilled(int zombiesKilled)
+    void GameStatistics::setZombiesKilled(int zombiesKilled)
     {
         this->zombiesKilled = zombiesKilled;
     }
 
-    int GameStatistics::getZomiesKilled() const
+    int GameStatistics::getZombiesKilled() const
     {
         return this->zombiesKilled;
     }

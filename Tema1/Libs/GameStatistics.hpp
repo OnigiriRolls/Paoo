@@ -14,8 +14,8 @@ namespace Underworld {
         GameStatistics& operator=(GameStatistics&& other) noexcept;
         void setStatistics(const char* statistics);
         void getStatistics() const;
-        void setZomiesKilled(int zombiesKilled);
-        int getZomiesKilled() const;
+        void setZombiesKilled(int zombiesKilled);
+        int getZombiesKilled() const;
         void setBloodDrinks(int bloodDrinks);
         int getBloodDrinks() const;
         void setScore(double score);

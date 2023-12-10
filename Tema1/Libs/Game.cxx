@@ -64,17 +64,22 @@ namespace Underworld
     Game::Game()
     {
         this->gameState = NULL;
+        this->gameStatistics = NULL;
         this->name = -1;
     }
 
     Game::Game(int name, std::shared_ptr<GameState> gameState) : name(name), gameState(gameState) {}
 
+    Game::Game(int name, std::unique_ptr<GameStatistics> gameStatistics) : name(name), gameStatistics(std::move(gameStatistics)) {}
+
     void Game::start()
     {
         std::cout << "Underworld game " << this->name << " started!"
-                  << "Current game state is:" << std::endl
+                  << " Current game state is:" << std::endl
                   << "Alive players: " << gameState->getPlayers() << std::endl
                   << "Alive enemies: " << gameState->getEnemies() << std::endl;
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(600));
 
         {
             std::lock_guard<std::mutex> lock(this->stateMutex);
@@ -88,7 +93,7 @@ namespace Underworld
             }
             else
             {
-                std::cout << "All players died in game" << this->name << "! Game over!"<< std::endl;
+                std::cout << "All players died in game" << this->name << "! Game over!" << std::endl;
                 return;
             }
 
@@ -99,11 +104,31 @@ namespace Underworld
             }
             else
             {
-                std::cout << "All enemies died in game" << this->name << "! Game over!" <<std::endl;
+                std::cout << "All enemies died in game" << this->name << "! Game over!" << std::endl;
                 return;
             }
+
+            std::cout << "Underworld game " << this->name << " ended!"
+                      << " Final game state is:" << std::endl
+                      << "Alive players: " << gameState->getPlayers() << std::endl
+                      << "Alive enemies: " << gameState->getEnemies() << std::endl;
         }
     }
 
-    void Game::end() {}
+    void Game::startWithGameStatistics()
+    {
+        std::cout << std::endl
+                  << "Underworld game " << this->name << " with unique game statistics!" << std::endl
+                  << "... game statistics are being completed ..." << std::endl;
+
+        this->gameStatistics->setBloodDrinks(this->name);
+        this->gameStatistics->setZombiesKilled(this->name);
+        this->gameStatistics->setScore(this->name * 100 - this->name * 3);
+    }
+
+    void Game::getGameStatistics() const
+    {
+        std::cout << "Underworld game " << this->name << " has game statistics:" << std::endl;
+        return this->gameStatistics->getStatistics();
+    }
 }
